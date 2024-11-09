@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    background-color: #1c1c1c;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+    cursor: default;
+    position: relative;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.poppins {
+    font-family: "Poppins", sans-serif;
+}
+
+/* Loading Spinner */
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner-container {
+    height: 60%;
+    aspect-ratio: 1/1;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.spinner-container4 {
+    height: 90%;
+    aspect-ratio: 1/1;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.spinner {
+    border: 2px solid rgba(252, 252, 252, 0.3);
+    border-top: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    animation: spin 1s linear infinite;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.spinner2 {
+    border: 2px solid #ff93ac;
+    border-top: 2px solid #f15d80;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    animation: spin 1s linear infinite;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+/* Hover */
+
+.container-input button:hover {
+    background-color: #dd4367;
+}
+
+.container-input button:active {
+    background-color: #b8304f;
+}
+
+.download-button:hover,
+.stream-button:hover {
+    filter: brightness(95%);
+}
