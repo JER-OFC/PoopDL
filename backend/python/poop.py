@@ -104,7 +104,7 @@ class PoopLink():
             auth : str = re.search(r'"Authorization":"(.*?)"',str(soup)).group(1).strip()
 
             #--> Get 3 : Mendapat direct download & streaming URL
-            head : dict[str, str] = {'Authorization':auth}
+            head : dict[str, str] = {'Authorization':auth, 'origin':f'https://{domain}'}
             req3 : object = self.r.get(url2, headers={**self.headers, **head}).json()
             self.link : str = req3.get('direct_link', '')
 
