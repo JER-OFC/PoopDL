@@ -1,5 +1,6 @@
 import re, requests, bs4
 
+default_domain = 'poop.run'
 headers: dict[str, str] = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'}
 
 #--> Buat dapetin semua file (misal kontennya berupa folder)
@@ -19,8 +20,15 @@ class PoopFile():
     #--> Dapetin semua file
     def getAllFile(self, url:str) -> None:
 
+        #--> Internet positif (kominfo kontol)
+        if '/e/' in str(url):
+            id : str = url.replace('//','/').split('/')[-1].split('?')[0].lower()
+            url = f'https://{default_domain}/d/{id}'
+            self.getAllFile(url)
+            return
+
         #--> Get 1 : Mendapat redirect URL (asli)
-        base_url : str = self.redirect(url)
+        base_url : str = self.redirect(url).split('?')[0]
 
         #--> Get 2 : Mendapat response text HTML
         req : object = self.r.get(base_url, headers=self.headers)
@@ -46,6 +54,15 @@ class PoopFile():
         elif type_url == 'd':
             self.singleFile(req.url)
 
+        #--> Kalau konten trending
+        elif type_url == 'top':
+            for i in range(1,11):
+                try:
+                    req  : object = self.r.get(f'https://{self.domain}/top?p={i}', headers=self.headers)
+                    soup : str = bs4.BeautifulSoup(req.text.replace('\\','').replace('\n',''), 'html.parser').prettify().replace('\n', '').replace('  ', '').replace('> <','><')
+                    self.multiFile(soup)
+                except: continue
+
     #--> Mendapat semua page
     def getAllPage(self, soup:str) -> list[str]:
         return([f'https://{self.domain}{i}'for i in re.findall(r'<a class="page-link" href="(.*?)">.*?</a>',str(soup))])
@@ -56,7 +73,7 @@ class PoopFile():
         list2 : list[str] = [string for string in list1 if 'strong' in string]
         for i in list2:
             try:
-                id    : str = re.search(r'href="(.*?)"',str(i)).group(1).split('/')[-1]
+                id    : str = re.search(r'href="(.*?)"',str(i)).group(1).split('/')[-1].split('?')[0]
                 name  : str = re.search(r'<strong>(.*?)</strong>',str(i)).group(1).strip()
                 image : str = re.search(r'src="(.*?)"',str(i)).group(1)
                 item  : dict[str,str] = {'domain':self.domain, 'id':id, 'name':name, 'image':image}
