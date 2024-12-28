@@ -1,6 +1,6 @@
 import re, requests, bs4
 
-default_domain = 'poop.run'
+default_domain = 'poo.phd'
 headers: dict[str, str] = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'}
 
 #--> Buat dapetin semua file (misal kontennya berupa folder)
